@@ -10,6 +10,13 @@ public class CharacterModel
     public KeyCode keyLeft;
     public KeyCode keyRight;
     public float moveSpeed;
+
+    //Animation Data
+    public Sprite[] upMoveSprites; 
+    public Sprite[] downMoveSprites; 
+    public Sprite[] leftMoveSprites; 
+    public Sprite[] rightMoveSprites; 
+
     public CharacterModel(CharacterSO characterData)
     {
         this.characterData = characterData;
@@ -23,6 +30,11 @@ public class CharacterModel
         this.keyDown = characterData.MoveDown;
         this.keyLeft = characterData.MoveLeft;
         this.keyRight = characterData.MoveRight;
+
+        this.upMoveSprites = characterData.MoveUpSprites;
+        this.downMoveSprites = characterData.MoveDownSprites;
+        this.leftMoveSprites = characterData.MoveLeftSprites;
+        this.rightMoveSprites = characterData.MoveRightSprites;
     }
     public void SetDirection(Vector2 newDirection)
     {

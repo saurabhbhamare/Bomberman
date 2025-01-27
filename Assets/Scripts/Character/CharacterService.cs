@@ -13,9 +13,4 @@ public class CharacterService
         CharacterController characterController1 = new CharacterController(this.characterView1, characterSO);
         characterView1.SetCharacterController(characterController1);
     }
-
-    //public void ConfigureCharacters()
-    //{
-
-    //}
 }

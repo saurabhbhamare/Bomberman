@@ -12,7 +12,7 @@ public class CharacterController
         this.characterView = characterView;
     }
 
-    public void TakeMovementInput()
+    public void HandleInput()
     {
         if (Input.GetKey(characterModel.keyUp))
         {
@@ -35,11 +35,10 @@ public class CharacterController
             characterModel.SetDirection(Vector2.zero);
         }
     }
-    public void MoveCharacter()
+    public void HandleMovement()
     {
         Vector2 position = characterView.GetRigidBody().position;
         Vector2 translation = characterModel.direction * characterModel.moveSpeed * Time.fixedDeltaTime;
         characterView.GetRigidBody().MovePosition(position + translation);
     }
-
 }

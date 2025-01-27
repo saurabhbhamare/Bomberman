@@ -17,7 +17,23 @@ MonoBehaviour:
   MoveLeft: 97
   MoveDown: 115
   MoveRight: 100
-  MoveUpSprites: []
-  MoveDownSprites: []
-  MoveLeftSprites: []
-  MoveRightSprites: []
+  MoveUpSprites:
+  - {fileID: 616504038, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 1372196283, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 2040498611, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 787479357, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  MoveDownSprites:
+  - {fileID: -1169885717, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: -835312503, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 1479605170, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 1433325655, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  MoveLeftSprites:
+  - {fileID: 2016383641, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: -1653651946, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 1269704144, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: -1972669837, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  MoveRightSprites:
+  - {fileID: 868293911, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 1382881546, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: -1962086397, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 569091773, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
