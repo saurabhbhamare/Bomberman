@@ -6,11 +6,13 @@ public class CharacterService
 {
     private CharacterSO characterSO;
     private CharacterView characterView1;
-    public CharacterService(CharacterSO characterSO, CharacterView characterView)
+    private BombService bombService;
+    public CharacterService(CharacterSO characterSO, CharacterView characterView,BombService bombService)
     {
         this.characterSO = characterSO;
         characterView1 = characterView;
-        CharacterController characterController1 = new CharacterController(this.characterView1, characterSO);
+        this.bombService = bombService;
+        CharacterController characterController1 = new CharacterController(this.characterView1, characterSO,bombService);
         characterView1.SetCharacterController(characterController1);
     }
 }
