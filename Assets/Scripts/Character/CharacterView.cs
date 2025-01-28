@@ -6,7 +6,9 @@ public class CharacterView : MonoBehaviour
 {
     private CharacterController characterController;
     private new Rigidbody2D rigidbody;
+    private CircleCollider2D circleCollider;
     private SpriteRenderer spriteRenderer;
+
     private int idleMoveSprite = 0;
     private int maxDirMovementFrames = 4; 
 
@@ -21,6 +23,7 @@ public class CharacterView : MonoBehaviour
     private void Awake()
     {
         this.rigidbody = GetComponent<Rigidbody2D>();
+        this.circleCollider = GetComponent<CircleCollider2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -45,6 +48,16 @@ public class CharacterView : MonoBehaviour
     public Rigidbody2D GetRigidBody()
     {
         return rigidbody;
+    }
+    public CircleCollider2D GetCircleCollider()
+    {
+        return this.circleCollider;
+    }
+    public Vector2 GetBombDropPosition()
+    {
+        //Vector2 position = new Vector2(Mathf.Round (circleCollider.transform.position.x), Mathf.Round(circleCollider.transform.position.y));
+        Vector2 position = new Vector2(Mathf.Round(circleCollider.bounds.center.x), Mathf.Round(circleCollider.bounds.center.y));
+        return position;
     }
     public SpriteRenderer GetSpriteRenderer()
     {

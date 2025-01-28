@@ -38,7 +38,8 @@ public class CharacterController
         }
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            bombService.PlaceBomb(characterView.transform.position);
+            //bombService.PlaceBomb(characterView.transform.position);
+            bombService.PlaceBomb(characterView.GetBombDropPosition());
         }
     }
     public void HandleMovement()
@@ -47,5 +48,8 @@ public class CharacterController
         Vector2 translation = characterModel.direction * characterModel.moveSpeed * Time.fixedDeltaTime;
         characterView.GetRigidBody().MovePosition(position + translation);
     }
-    
+    //private Vector2 GetBombDropPosition()
+    //{
+    //  Vector2 position = characterView.g
+    //}
 }

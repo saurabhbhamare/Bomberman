@@ -27,12 +27,20 @@ public class BombService
     }
     public void PlaceBomb(Vector2 position)
     {
-        Bomb bomb = bombPool.GetObject();
+        Bomb bomb = bombPool.GetObject(); 
         bomb.transform.position = position;
+        bomb.ConfigureBomb(2,this);
 
     }
     public void Explode()
     {
 
+    }
+    public void ReturnObjectToPool<T>(T obj) where T: MonoBehaviour
+    {
+        if(obj is Bomb)
+        {
+            bombPool.ReturnObject(obj as Bomb);
+        }
     }
 }
