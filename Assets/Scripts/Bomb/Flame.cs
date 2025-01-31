@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class Flame : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float nextFrameTime;
+    private int currentFrame;
+    private float animationFrameRate = 0.1f;
+    private BombSO bombData;
+    private BombService bombService;
+    private Vector2 currentFramePosition;
+
+    private void Start()
+    {
+        Invoke(nameof(FadeOut), 1);
+    }
+    public void ConfigureFlame(BombService bombService,Vector2 position)
+    {
+        currentFramePosition = position;
+        this.bombService = bombService;
+        this.bombData = bombService.bombData;
+        this.gameObject.transform.position = currentFramePosition;
+        Invoke(nameof(FadeOut), 1);
+    }
+    private void Update()
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
+    public void PlayFlamesFadeOutAnimation()
     {
-        
+
+    }
+    public void FadeOut()
+    {
+        bombService.ReturnObjectToPool(this);
     }
 }

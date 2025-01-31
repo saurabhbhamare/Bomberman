@@ -6,7 +6,7 @@ public class CharacterController
     public CharacterModel characterModel;
     public CharacterView characterView;
     public BombService bombService;
-    public CharacterController(CharacterView characterView, CharacterSO characterSO,BombService bombService)
+    public CharacterController(CharacterView characterView, CharacterSO characterSO, BombService bombService)
     {
         this.characterSO = characterSO;
         characterModel = new CharacterModel(this.characterSO);
@@ -36,7 +36,7 @@ public class CharacterController
         {
             characterModel.SetDirection(Vector2.zero);
         }
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             //bombService.PlaceBomb(characterView.transform.position);
             bombService.PlaceBomb(characterView.GetBombDropPosition());

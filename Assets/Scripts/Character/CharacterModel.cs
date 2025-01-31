@@ -12,10 +12,10 @@ public class CharacterModel
     public float moveSpeed;
 
     //Animation Data
-    public Sprite[] upMoveSprites; 
-    public Sprite[] downMoveSprites; 
-    public Sprite[] leftMoveSprites; 
-    public Sprite[] rightMoveSprites; 
+    public Sprite[] upMoveSprites;
+    public Sprite[] downMoveSprites;
+    public Sprite[] leftMoveSprites;
+    public Sprite[] rightMoveSprites;
 
     public CharacterModel(CharacterSO characterData)
     {
