@@ -41,25 +41,28 @@ public class BombService
         //Vector2 recentPos = position;
         Vector2 recentPos = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
         Flame centerFlame = flamesPool.GetObject();
-        
+
         //centerFlame.transform.position = bombPosition;
         centerFlame.transform.position = recentPos;
-        centerFlame.ConfigureFlame(this, recentPos);
+        centerFlame.ConfigureFlame(this, recentPos, Vector2.zero, FlameType.START);
 
         for (int i = 1; i <= bombData.ExplosionRadius; i++)
         {
-            //flamesPool.GetObject().transform.position = recentPos + Vector2.up * i;
-            //flamesPool.GetObject().transform.position = recentPos + Vector2.down * i;
-            //flamesPool.GetObject().transform.position = recentPos + Vector2.left * i;
-            //flamesPool.GetObject().transform.position = recentPos + Vector2.right * i;
+            {
+                FlameType flameType = (i == bombData.ExplosionRadius) ? FlameType.END : FlameType.MID;
+                //flamesPool.GetObject().transform.position = recentPos + Vector2.up * i;
+                //flamesPool.GetObject().transform.position = recentPos + Vector2.down * i;
+                //flamesPool.GetObject().transform.position = recentPos + Vector2.left * i;
+                //flamesPool.GetObject().transform.position = recentPos + Vector2.right * i;
 
-            flamesPool.GetObject().ConfigureFlame(this,recentPos + Vector2.up * i);
-            flamesPool.GetObject().ConfigureFlame(this,recentPos + Vector2.down * i);
-            flamesPool.GetObject().ConfigureFlame(this,recentPos + Vector2.left * i);
-            flamesPool.GetObject().ConfigureFlame(this,recentPos + Vector2.right * i);
-            //flamesPool.GetObject().transform.position = recentPos + Vector2.down * i;
-            //flamesPool.GetObject().transform.position = recentPos + Vector2.left * i;
-            //flamesPool.GetObject().transform.position = recentPos + Vector2.right * i;
+                flamesPool.GetObject().ConfigureFlame(this, recentPos + Vector2.up * i, Vector2.up, flameType);
+                flamesPool.GetObject().ConfigureFlame(this, recentPos + Vector2.down * i, Vector2.down, flameType);
+                flamesPool.GetObject().ConfigureFlame(this, recentPos + Vector2.left * i, Vector2.left, flameType);
+                flamesPool.GetObject().ConfigureFlame(this, recentPos + Vector2.right * i, Vector2.right, flameType);
+                //flamesPool.GetObject().transform.position = recentPos + Vector2.down * i;
+                //flamesPool.GetObject().transform.position = recentPos + Vector2.left * i;
+                //flamesPool.GetObject().transform.position = recentPos + Vector2.right * i;
+            }
         }
     }
     //public void Explode()
