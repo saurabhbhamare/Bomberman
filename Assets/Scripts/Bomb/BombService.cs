@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Tilemaps;
 public class BombService
 {
-    public  BombSO bombData;
+    public BombSO bombData;
     private Bomb bomb;
     private Flame flame;
     private Vector2 bombPosition;
+    private Destructible destructible;
+    private GameObject destructibleObj;
 
     private Transform bombParent;
     private Transform flameParent;
@@ -17,14 +19,21 @@ public class BombService
 
     private ResourcePool<Bomb> bombPool;
     private ResourcePool<Flame> flamesPool;
+    //private ResourcePool<Destructible> destructiblePool;
 
-    public BombService(BombSO bombData, Bomb bomb, Flame flame, Transform bombParent, Transform flameParent)
+    private LayerMask obstacleLayerMask;
+    public Tilemap destructibleTilemap;
+
+    public BombService(BombSO bombData, Bomb bomb, Flame flame, Transform bombParent, Transform flameParent, LayerMask obstacleLayerMask,Tilemap destructibleTilemap,Destructible destructible,GameObject destructibleObj)
     {
-        this.bombData = bombData;  
+        this.bombData = bombData;
         this.bomb = bomb;
         this.bombParent = bombParent;
         this.flameParent = flameParent;
-
+        this.obstacleLayerMask = obstacleLayerMask;
+        this.destructibleTilemap = destructibleTilemap;
+        this.destructible = destructible;
+        this.destructibleObj = destructibleObj;
         bombPool = new ResourcePool<Bomb>(bomb, bombPoolSize, bombParent);
         flamesPool = new ResourcePool<Flame>(flame, flamesPoolSize, flameParent);
     }
@@ -38,46 +47,65 @@ public class BombService
     }
     public void ShowExplosionFlames(Vector2 position)
     {
-        //Vector2 recentPos = position;
         Vector2 recentPos = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
-        Flame centerFlame = flamesPool.GetObject();
 
-        //centerFlame.transform.position = bombPosition;
-        centerFlame.transform.position = recentPos;
+        // Center flame (start animation)
+        Flame centerFlame = flamesPool.GetObject();
         centerFlame.ConfigureFlame(this, recentPos, Vector2.zero, FlameType.START);
 
+        // Directional flames
+        PlaceDirectionalFlames(recentPos, Vector2.up, FlameType.MID, FlameType.END);
+        PlaceDirectionalFlames(recentPos, Vector2.down, FlameType.MID, FlameType.END);
+        PlaceDirectionalFlames(recentPos, Vector2.left, FlameType.MID, FlameType.END);
+        PlaceDirectionalFlames(recentPos, Vector2.right, FlameType.MID, FlameType.END);
+    }
+    private void PlaceDirectionalFlames(Vector2 origin, Vector2 direction, FlameType midFlameType, FlameType endFlameType)
+    {
         for (int i = 1; i <= bombData.ExplosionRadius; i++)
         {
-            {
-                FlameType flameType = (i == bombData.ExplosionRadius) ? FlameType.END : FlameType.MID;
-                //flamesPool.GetObject().transform.position = recentPos + Vector2.up * i;
-                //flamesPool.GetObject().transform.position = recentPos + Vector2.down * i;
-                //flamesPool.GetObject().transform.position = recentPos + Vector2.left * i;
-                //flamesPool.GetObject().transform.position = recentPos + Vector2.right * i;
+            FlameType flameType = (i == bombData.ExplosionRadius) ? endFlameType : midFlameType;
+            Vector2 offset = direction * i;
+            Vector2 checkPosition = origin + offset;
+            Vector2 boxSize = new Vector2(0.5f, 0.5f);
+            Collider2D hit = Physics2D.OverlapBox(checkPosition, boxSize, 0f, obstacleLayerMask);
 
-                flamesPool.GetObject().ConfigureFlame(this, recentPos + Vector2.up * i, Vector2.up, flameType);
-                flamesPool.GetObject().ConfigureFlame(this, recentPos + Vector2.down * i, Vector2.down, flameType);
-                flamesPool.GetObject().ConfigureFlame(this, recentPos + Vector2.left * i, Vector2.left, flameType);
-                flamesPool.GetObject().ConfigureFlame(this, recentPos + Vector2.right * i, Vector2.right, flameType);
-                //flamesPool.GetObject().transform.position = recentPos + Vector2.down * i;
-                //flamesPool.GetObject().transform.position = recentPos + Vector2.left * i;
-                //flamesPool.GetObject().transform.position = recentPos + Vector2.right * i;
+            if (hit == null)
+            {
+                Flame flame = flamesPool.GetObject();
+                flame.ConfigureFlame(this, checkPosition, direction, flameType);
+            }
+            else
+            {
+                RemoveDestructible(checkPosition);
+                
+                break;
             }
         }
     }
-    //public void Explode()
-    //{
-
-    //}
     public void ReturnObjectToPool<T>(T obj) where T : MonoBehaviour
     {
         if (obj is Bomb)
         {
             bombPool.ReturnObject(obj as Bomb);
         }
-        if(obj is Flame)
+        if (obj is Flame)
         {
             flamesPool.ReturnObject(obj as Flame);
+        }
+    }
+    private void RemoveDestructible(Vector2 position)
+    {
+        Vector3Int cell = destructibleTilemap.WorldToCell(position);
+        TileBase tile = destructibleTilemap.GetTile(cell);
+
+        if(tile!=null)
+        {
+
+            GameObject.Instantiate(destructible, position, Quaternion.identity);
+            // GameObject.Instantiate(destructible, position, Quaternion.identity);
+            // GameObject.Instantiate(destructible, cell, Quaternion.identity);
+            //GameObject.Instantiate(this.destructibleObj,cell,Quaternion.identity);
+            destructibleTilemap.SetTile(cell, null);
         }
     }
 }

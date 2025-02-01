@@ -7,14 +7,13 @@ public class Flame : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float nextFrameTime;
     private int currentFrame;
-    private float animationFrameRate = 0.1f;
+    private float animationFrameRate = 0.15f;
     private BombSO bombData;
     private BombService bombService;
     private Vector2 currentFramePosition;
     private int spriteCount = 8;
     private int blockPosition;
     private Sprite[] currentFlameAnimation;
-   // private float nextFrameTime;
 
     private Sprite[] startFlame;
     private Sprite[] midFlame;
@@ -23,10 +22,11 @@ public class Flame : MonoBehaviour
     private void Start()
     {
         this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-        Invoke(nameof(FadeOut), 1);
+        this.spriteRenderer.sprite = startFlame[0];
+        Invoke(nameof(FadeOut), 0.6f);
     }
-    
-    public void ConfigureFlame(BombService bombService,Vector2 position,Vector2 direction,FlameType flameType)
+
+    public void ConfigureFlame(BombService bombService, Vector2 position, Vector2 direction, FlameType flameType)
     {
         currentFramePosition = position;
         this.bombService = bombService;
@@ -49,26 +49,21 @@ public class Flame : MonoBehaviour
                 currentFlameAnimation = endFlame;
                 break;
         }
-
-        // PlayFlamesFadeOutAnimation();
-
         this.gameObject.transform.position = currentFramePosition;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         this.transform.rotation = Quaternion.Euler(0, 0, angle);
-        // this.gameObject.transform.rotation()
         Invoke(nameof(FadeOut), 1);
     }
     private void Update()
     {
-        if(this.gameObject)
+        if (this.gameObject)
         {
             PlayFlamesFadeOutAnimation();
         }
-       
     }
     public void PlayFlamesFadeOutAnimation()
     {
-        
+
         if (Time.time >= nextFrameTime)
         {
             spriteRenderer.sprite = currentFlameAnimation[currentFrame];

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public enum FlameType 
+public enum FlameType
 {
     START,
     MID,

@@ -13,10 +13,8 @@ public class BombSO : ScriptableObject
 
     [Header("Explosion Properties")]
 
-    public Sprite[] StartFlameAnimationSprites; 
-    public Sprite[] MidFlameAnimationSprites; 
-    public Sprite[] EndFlameAnimationSprites; 
- 
-    
-    
+    public Sprite[] StartFlameAnimationSprites;
+    public Sprite[] MidFlameAnimationSprites;
+    public Sprite[] EndFlameAnimationSprites;
+
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 public class MainHandler : MonoBehaviour
 {
 
@@ -13,6 +14,11 @@ public class MainHandler : MonoBehaviour
     [SerializeField] Transform bombParent;
     [SerializeField] Transform flameParent;
 
+    [SerializeField] LayerMask obstacleLayerMask;
+    [SerializeField] private Tilemap destructibleTilemap;
+    [SerializeField] private Destructible destructibleWall;
+
+    [SerializeField] private GameObject destructibleObj;
 
     private CharacterService characterService;
     private BombService bombService;
@@ -24,9 +30,9 @@ public class MainHandler : MonoBehaviour
 
     private void InitServices()
     {
-        bombService = new BombService(bombData,bombPrefab,flamePrefab,bombParent,flameParent);
-        characterService = new CharacterService(characterSO, characterView, bombService);     
-       // AudioService 
+        bombService = new BombService(bombData, bombPrefab, flamePrefab, bombParent, flameParent, obstacleLayerMask, destructibleTilemap,destructibleWall,destructibleObj);
+        characterService = new CharacterService(characterSO, characterView, bombService);
+        // AudioService 
     }
 
 }

@@ -14,12 +14,7 @@ public class Bomb : MonoBehaviour
     private float timer;
     private float nextFrameTime;
     private int currentFrame;
-    private float animationFrameRate = 0.1f;
-    
-    // private void Start()
-    //{
-        
-    //}
+    private float animationFrameRate = 0.15f;
     public void ConfigureBomb(BombService bombService)
     {
         this.circleCollider = this.gameObject.GetComponent<CircleCollider2D>();
@@ -27,7 +22,6 @@ public class Bomb : MonoBehaviour
         this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         this.bombService = bombService;
         bombData = bombService.bombData;
-        //timer = bombData.ExplosionDelay;
         SetBombData(this.bombData);
         Invoke(nameof(Explode), bombData.ExplosionDelay);
     }
@@ -41,7 +35,6 @@ public class Bomb : MonoBehaviour
         bombRadius = bombData.ExplosionRadius;
         scaleSprites = bombData.BombAnimationSprites;
         nextFrameTime = Time.time + bombData.BombAnimationFrameRate;
-
     }
     public void PlayScalingAnimation()
     {
@@ -54,7 +47,7 @@ public class Bomb : MonoBehaviour
     }
     public void Explode()
     {
-        if(bombService == null)
+        if (bombService == null)
         {
             Debug.Log("bomservice null");
         }
