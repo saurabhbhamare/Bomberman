@@ -11,6 +11,9 @@ public class BombService
     private Destructible destructible;
     private GameObject destructibleObj;
 
+
+    private int explosionRadius;
+
     private Transform bombParent;
     private Transform flameParent;
 
@@ -24,7 +27,10 @@ public class BombService
     private LayerMask obstacleLayerMask;
     public Tilemap destructibleTilemap;
 
-    public BombService(BombSO bombData, Bomb bomb, Flame flame, Transform bombParent, Transform flameParent, LayerMask obstacleLayerMask,Tilemap destructibleTilemap,Destructible destructible,GameObject destructibleObj)
+
+    private EventService eventService;
+
+    public BombService(BombSO bombData, Bomb bomb, Flame flame, Transform bombParent, Transform flameParent, LayerMask obstacleLayerMask,Tilemap destructibleTilemap,Destructible destructible,GameObject destructibleObj,EventService eventService)
     {
         this.bombData = bombData;
         this.bomb = bomb;
@@ -34,8 +40,20 @@ public class BombService
         this.destructibleTilemap = destructibleTilemap;
         this.destructible = destructible;
         this.destructibleObj = destructibleObj;
+        this.explosionRadius = bombData.ExplosionRadius;
+
+
+
+        this.eventService = eventService;
         bombPool = new ResourcePool<Bomb>(bomb, bombPoolSize, bombParent);
         flamesPool = new ResourcePool<Flame>(flame, flamesPoolSize, flameParent);
+
+        RegisterEventListeners();
+    }
+
+    public void RegisterEventListeners()
+    {
+        eventService.OnBlastRadiusPickUp.AddListener(IncreaseBlastRadius);
     }
     public void PlaceBomb(Vector2 position)
     {
@@ -61,9 +79,9 @@ public class BombService
     }
     private void PlaceDirectionalFlames(Vector2 origin, Vector2 direction, FlameType midFlameType, FlameType endFlameType)
     {
-        for (int i = 1; i <= bombData.ExplosionRadius; i++)
+        for (int i = 1; i <= explosionRadius; i++)
         {
-            FlameType flameType = (i == bombData.ExplosionRadius) ? endFlameType : midFlameType;
+            FlameType flameType = (i == explosionRadius) ? endFlameType : midFlameType;
             Vector2 offset = direction * i;
             Vector2 checkPosition = origin + offset;
             Vector2 boxSize = new Vector2(0.5f, 0.5f);
@@ -102,10 +120,20 @@ public class BombService
         {
 
             GameObject.Instantiate(destructible, position, Quaternion.identity);
+
+
             // GameObject.Instantiate(destructible, position, Quaternion.identity);
             // GameObject.Instantiate(destructible, cell, Quaternion.identity);
             //GameObject.Instantiate(this.destructibleObj,cell,Quaternion.identity);
             destructibleTilemap.SetTile(cell, null);
+
+
+            eventService.OnRemovingDestructible.Invoke(position);
         }
+    }
+
+    public void IncreaseBlastRadius()
+    {
+        explosionRadius++;
     }
 }

@@ -75,4 +75,11 @@ public class Flame : MonoBehaviour
     {
         bombService.ReturnObjectToPool(this);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.GetComponent<CharacterView>())
+        {
+            Time.timeScale = 0f;
+        }
+    }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class BombSO : ScriptableObject
 {
     [Header("Bomb Properties")]
-    public float ExplosionRadius;
+    public int ExplosionRadius;
     public float ExplosionDelay;
     public float BombAnimationFrameRate;
 

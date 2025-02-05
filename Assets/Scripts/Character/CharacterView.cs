@@ -10,7 +10,7 @@ public class CharacterView : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private int idleMoveSprite = 0;
-    private int maxDirMovementFrames = 4; 
+    private int maxDirMovementFrames = 4;
 
     private float frameTimer;
     private int currentFrame;
@@ -66,21 +66,21 @@ public class CharacterView : MonoBehaviour
     public void PlayAnimation()
     {
         Vector2 direction = characterController.characterModel.direction;
-        if (direction!=Vector2.zero)
+        if (direction != Vector2.zero)
         {
 
             lastDirection = direction;
-            
+
             frameTimer += Time.deltaTime;
-            if(frameTimer>=frameRate)
+            if (frameTimer >= frameRate)
             {
                 frameTimer = 0f;
                 currentFrame = (currentFrame + 1) % maxDirMovementFrames;
-                if(direction == Vector2.up)
+                if (direction == Vector2.up)
                 {
                     spriteRenderer.sprite = characterController.characterModel.upMoveSprites[currentFrame];
                 }
-                else if(direction == Vector2.down)
+                else if (direction == Vector2.down)
                 {
                     spriteRenderer.sprite = characterController.characterModel.downMoveSprites[currentFrame];
                 }
@@ -98,11 +98,11 @@ public class CharacterView : MonoBehaviour
         else
         {
             idleTimer += Time.deltaTime;
-            if(idleTimer>=idleDelay)
+            if (idleTimer >= idleDelay)
             {
                 DisplayIdleSprite();
             }
-           
+
         }
     }
     public void DisplayIdleSprite()
@@ -115,14 +115,38 @@ public class CharacterView : MonoBehaviour
         {
             spriteRenderer.sprite = characterController.characterModel.downMoveSprites[idleMoveSprite];
         }
-        else if(lastDirection == Vector2.left)
+        else if (lastDirection == Vector2.left)
         {
             spriteRenderer.sprite = characterController.characterModel.leftMoveSprites[idleMoveSprite];
         }
-        else if(lastDirection == Vector2.right)
+        else if (lastDirection == Vector2.right)
         {
             spriteRenderer.sprite = characterController.characterModel.rightMoveSprites[idleMoveSprite];
         }
 
+    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.GetComponent<Flame>())
+        {
+            Time.timeScale = 0;
+        }
+        else if(other.gameObject.GetComponent<PowerUP>())
+        {
+            ItemType itemType = other.gameObject.GetComponent<PowerUP>().itemType;
+            characterController.OnPickingPowerUP(itemType);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<Flame>())
+        {
+            Time.timeScale = 0f;
+        }
+        if(other.gameObject.GetComponent<PowerUP>())
+        {
+            ItemType itemType = other.gameObject.GetComponent<PowerUP>().itemType;
+            characterController.OnPickingPowerUP(itemType);
+        }
     }
 }

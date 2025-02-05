@@ -9,6 +9,7 @@ public class CharacterModel
     public KeyCode keyDown;
     public KeyCode keyLeft;
     public KeyCode keyRight;
+    public int bombs=10;
     public float moveSpeed;
 
     //Animation Data

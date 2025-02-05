@@ -13,6 +13,8 @@ public class MainHandler : MonoBehaviour
     [SerializeField] private Flame flamePrefab;
     [SerializeField] Transform bombParent;
     [SerializeField] Transform flameParent;
+    [Header("PowerUps Data")]
+    [SerializeField] private PowerUpSO powerUpsData;
 
     [SerializeField] LayerMask obstacleLayerMask;
     [SerializeField] private Tilemap destructibleTilemap;
@@ -22,17 +24,31 @@ public class MainHandler : MonoBehaviour
 
     private CharacterService characterService;
     private BombService bombService;
-
+    private PowerUpService powerUpService;
+    private EventService eventService;
     private void Start()
     {
         InitServices();
+        RegisterEventListeners();
     }
 
     private void InitServices()
     {
-        bombService = new BombService(bombData, bombPrefab, flamePrefab, bombParent, flameParent, obstacleLayerMask, destructibleTilemap,destructibleWall,destructibleObj);
-        characterService = new CharacterService(characterSO, characterView, bombService);
+        eventService = new EventService();
+        bombService = new BombService(bombData, bombPrefab, flamePrefab, bombParent, flameParent, obstacleLayerMask, destructibleTilemap,destructibleWall,destructibleObj,eventService);
+        characterService = new CharacterService(characterSO, characterView, bombService,eventService);
+        powerUpService = new PowerUpService(powerUpsData,eventService);
+       
         // AudioService 
     }
+    //Game States
+    
+    private void RegisterEventListeners()
+    {
+        
+    }
+    public void GameOver()
+    {
 
+    }
 }
