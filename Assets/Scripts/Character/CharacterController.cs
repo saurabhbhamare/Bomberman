@@ -38,21 +38,24 @@ public class CharacterController
         {
             characterModel.SetDirection(Vector2.zero);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(characterModel.placeBomb))
         {
             
             if(characterModel.bombs>0)
             {
-                bombService.PlaceBomb(characterView.GetBombDropPosition());
+                bombService.PlaceBomb(characterView.GetBombDropPosition(),characterModel.isBlastRadiusOn);
+             //  bombService.PlaceBomb()
                 characterModel.bombs--;
             }
-           // bombService.PlaceBomb(characterView.GetBombDropPosition());
+          //  bombService.PlaceBomb(characterView.GetBombDropPosition());
         }
     }
     public void HandleMovement()
     {
         Vector2 position = characterView.GetRigidBody().position;
-        Vector2 translation = characterModel.direction * characterModel.moveSpeed * Time.fixedDeltaTime;
+        float currentSpeed = characterModel.isSpeedBoostOn ? characterModel.boostedSpeed : characterModel.defaultSpeed;
+      //  Vector2 translation = characterModel.direction * characterModel.defaultSpeed * Time.fixedDeltaTime;
+        Vector2 translation = characterModel.direction * currentSpeed* Time.fixedDeltaTime;
         characterView.GetRigidBody().MovePosition(position + translation);
     }
 
@@ -66,13 +69,31 @@ public class CharacterController
             case ItemType.EXTRABOMB:
                 break;
             case ItemType.SPEEDBOOST:
+                SpeedBoostPickup();
                 break;
         }
 
     }
     public void SpeedBoostPickup()
     {
+        Debug.Log("speed boost pickup");
+        characterModel.isSpeedBoostOn = true;
+        characterModel.speedBoostStartTime = Time.time;
+    }
 
+    public void UpdateSpeedBoost()
+    {
+        if(characterModel.isSpeedBoostOn && Time.time - characterModel.speedBoostStartTime>= characterModel.speedBoostDuration)
+        {
+            characterModel.isSpeedBoostOn = false;
+        }
+    }
+    public void UpdateBlastRadius()
+    {
+        if (characterModel.isBlastRadiusOn && Time.time - characterModel.blastRadiusStartTime >= characterModel.blastRadiusDuration)
+        {
+            characterModel.isBlastRadiusOn = false;
+        }
     }
     public void ExtraBombPickUp()
     {
@@ -80,12 +101,8 @@ public class CharacterController
     }
     public void BlastRadiusPickUp()
     {
-        Debug.Log("Blast radius pickup");
-        if(eventService == null)
-        {
-            Debug.Log("event service is null");
-        }
-        eventService.OnBlastRadiusPickUp.Invoke();
+        characterModel.isBlastRadiusOn = true;
+        characterModel.blastRadiusStartTime = Time.time;
     }
     
     //private Vector2 GetBombDropPosition()

@@ -4,8 +4,10 @@ public class MainHandler : MonoBehaviour
 {
 
     [Header("Character References")]
-    [SerializeField] private CharacterSO characterSO;
-    [SerializeField] private CharacterView characterView;
+    [SerializeField] private CharacterSO characterSO1;
+    [SerializeField] private CharacterSO characterSO2;
+    [SerializeField] private CharacterView characterView1;
+    [SerializeField] private CharacterView characterView2;
 
     [Header("Bomb and Flame References")]
     [SerializeField] private BombSO bombData;
@@ -36,7 +38,7 @@ public class MainHandler : MonoBehaviour
     {
         eventService = new EventService();
         bombService = new BombService(bombData, bombPrefab, flamePrefab, bombParent, flameParent, obstacleLayerMask, destructibleTilemap,destructibleWall,destructibleObj,eventService);
-        characterService = new CharacterService(characterSO, characterView, bombService,eventService);
+        characterService = new CharacterService(characterSO1, characterSO2,characterView1,characterView2,bombService,eventService);
         powerUpService = new PowerUpService(powerUpsData,eventService);
        
         // AudioService 

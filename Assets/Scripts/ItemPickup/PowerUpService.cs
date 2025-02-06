@@ -22,7 +22,7 @@ public class PowerUpService
     }
     public GameObject GetRandomPowerUp()
     {
-        int randomPowerUpNumber = Random.Range(0, 2);
+        int randomPowerUpNumber = Random.Range(0, 3);
         return powerUpData.PowerUPs[randomPowerUpNumber];
     }
     private void RegisterEventListeners()

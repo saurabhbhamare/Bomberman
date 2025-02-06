@@ -35,6 +35,8 @@ public class CharacterView : MonoBehaviour
     void Update()
     {
         characterController.HandleInput();
+        characterController.UpdateSpeedBoost();
+        characterController.UpdateBlastRadius();
         PlayAnimation();
     }
     private void FixedUpdate()

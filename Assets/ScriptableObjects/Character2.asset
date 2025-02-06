@@ -12,28 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f56f2ce3d0b5744bb0faa60a309202, type: 3}
   m_Name: Character2
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  MoveUp: 119
-  MoveLeft: 97
-  MoveDown: 115
-  MoveRight: 100
+  DefaultSpeed: 5
+  BoostedSpeed: 10
+  SpeedBoostDuration: 3
+  MoveUp: 273
+  MoveLeft: 276
+  MoveDown: 274
+  MoveRight: 275
+  PlaceBomb: 256
   MoveUpSprites:
-  - {fileID: 616504038, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: 1372196283, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: 2040498611, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: 787479357, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 1218582262, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: -1680398877, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: -1317553936, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: -203892465, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
   MoveDownSprites:
-  - {fileID: -1169885717, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: -835312503, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: 1479605170, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: 1433325655, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: -2098825523, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: -1416280130, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: 1589793946, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: 90619872, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
   MoveLeftSprites:
-  - {fileID: 2016383641, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: -1653651946, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: 1269704144, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: -1972669837, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 1464623129, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: 1642709887, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: -283252659, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: 697660785, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
   MoveRightSprites:
-  - {fileID: 868293911, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: 1382881546, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: -1962086397, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  - {fileID: 569091773, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
+  - {fileID: 1203929298, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: -682831818, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: 1768243171, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}
+  - {fileID: -1312832859, guid: d1d833b5601f3e3448f84825f4d0e1af, type: 3}

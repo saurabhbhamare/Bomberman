@@ -15,13 +15,15 @@ public class Bomb : MonoBehaviour
     private float nextFrameTime;
     private int currentFrame;
     private float animationFrameRate = 0.15f;
-    public void ConfigureBomb(BombService bombService)
+    private bool isBlastRadiusOn;
+    public void ConfigureBomb(BombService bombService,bool isBlastRadiusOn)
     {
         this.circleCollider = this.gameObject.GetComponent<CircleCollider2D>();
         this.circleCollider.isTrigger = true;
         this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         this.bombService = bombService;
         bombData = bombService.bombData;
+        this.isBlastRadiusOn = isBlastRadiusOn;
         SetBombData(this.bombData);
         Invoke(nameof(Explode), bombData.ExplosionDelay);
     }
@@ -32,7 +34,17 @@ public class Bomb : MonoBehaviour
     public void SetBombData(BombSO bombSO)
     {
         timer = bombData.ExplosionDelay;
-        bombRadius = bombData.ExplosionRadius;
+        if(isBlastRadiusOn)
+        {
+           // Debug.Log("Blast radius on saved");
+            bombRadius = bombSO.BoostedBlastRadius;
+        }
+        else
+        {
+            bombRadius = bombSO.DefaultExplosionRadius;
+        }
+        //  bombRadius = bombData.DefaultExplosionRadius;
+        Debug.Log("bomb Radius is : " + bombRadius);
         scaleSprites = bombData.BombAnimationSprites;
         nextFrameTime = Time.time + bombData.BombAnimationFrameRate;
     }
@@ -51,7 +63,7 @@ public class Bomb : MonoBehaviour
         {
             Debug.Log("bomservice null");
         }
-        bombService.ShowExplosionFlames(this.transform.position);
+        bombService.ShowExplosionFlames(this.transform.position,this.isBlastRadiusOn);
         bombService.ReturnObjectToPool(this);
     }
     private void OnTriggerExit2D(Collider2D other)

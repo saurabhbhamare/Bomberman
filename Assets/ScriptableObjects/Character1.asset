@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f56f2ce3d0b5744bb0faa60a309202, type: 3}
   m_Name: Character1
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  DefaultSpeed: 5
+  BoostedSpeed: 10
+  SpeedBoostDuration: 3
   MoveUp: 119
   MoveLeft: 97
   MoveDown: 115
   MoveRight: 100
+  PlaceBomb: 32
   MoveUpSprites:
   - {fileID: 616504038, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
   - {fileID: 1372196283, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}

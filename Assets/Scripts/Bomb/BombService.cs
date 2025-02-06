@@ -12,7 +12,8 @@ public class BombService
     private GameObject destructibleObj;
 
 
-    private int explosionRadius;
+    private int defaultExplosionRadius;
+    private int boostedBlastRadius;
 
     private Transform bombParent;
     private Transform flameParent;
@@ -40,7 +41,8 @@ public class BombService
         this.destructibleTilemap = destructibleTilemap;
         this.destructible = destructible;
         this.destructibleObj = destructibleObj;
-        this.explosionRadius = bombData.ExplosionRadius;
+        this.defaultExplosionRadius = bombData.DefaultExplosionRadius;
+        this.boostedBlastRadius = bombData.BoostedBlastRadius;
 
 
 
@@ -53,18 +55,19 @@ public class BombService
 
     public void RegisterEventListeners()
     {
-        eventService.OnBlastRadiusPickUp.AddListener(IncreaseBlastRadius);
+       // eventService.OnBlastRadiusPickUp.AddListener(IncreaseBlastRadius);
     }
-    public void PlaceBomb(Vector2 position)
+    public void PlaceBomb(Vector2 position,bool isBlastRadiusOn)
     {
+
         bombPosition = position;
         Bomb bomb = bombPool.GetObject();
         bomb.transform.position = position;
-        bomb.ConfigureBomb(this);
+        bomb.ConfigureBomb(this,isBlastRadiusOn);
 
     }
-    public void ShowExplosionFlames(Vector2 position)
-    {
+    public void ShowExplosionFlames(Vector2 position,bool isBlastRadius)
+    { 
         Vector2 recentPos = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
 
         // Center flame (start animation)
@@ -72,16 +75,18 @@ public class BombService
         centerFlame.ConfigureFlame(this, recentPos, Vector2.zero, FlameType.START);
 
         // Directional flames
-        PlaceDirectionalFlames(recentPos, Vector2.up, FlameType.MID, FlameType.END);
-        PlaceDirectionalFlames(recentPos, Vector2.down, FlameType.MID, FlameType.END);
-        PlaceDirectionalFlames(recentPos, Vector2.left, FlameType.MID, FlameType.END);
-        PlaceDirectionalFlames(recentPos, Vector2.right, FlameType.MID, FlameType.END);
+        PlaceDirectionalFlames(recentPos, Vector2.up, FlameType.MID, FlameType.END,isBlastRadius);
+        PlaceDirectionalFlames(recentPos, Vector2.down, FlameType.MID, FlameType.END, isBlastRadius);
+        PlaceDirectionalFlames(recentPos, Vector2.left, FlameType.MID, FlameType.END, isBlastRadius);
+        PlaceDirectionalFlames(recentPos, Vector2.right, FlameType.MID, FlameType.END, isBlastRadius);
     }
-    private void PlaceDirectionalFlames(Vector2 origin, Vector2 direction, FlameType midFlameType, FlameType endFlameType)
+    private void PlaceDirectionalFlames(Vector2 origin, Vector2 direction, FlameType midFlameType, FlameType endFlameType,bool isBlastRadius)
     {
-        for (int i = 1; i <= explosionRadius; i++)
+
+        int currentExplosionRadius = isBlastRadius ? this.boostedBlastRadius : defaultExplosionRadius;
+        for (int i = 1; i <= currentExplosionRadius; i++)
         {
-            FlameType flameType = (i == explosionRadius) ? endFlameType : midFlameType;
+            FlameType flameType = (i == currentExplosionRadius) ? endFlameType : midFlameType;
             Vector2 offset = direction * i;
             Vector2 checkPosition = origin + offset;
             Vector2 boxSize = new Vector2(0.5f, 0.5f);
@@ -132,8 +137,8 @@ public class BombService
         }
     }
 
-    public void IncreaseBlastRadius()
-    {
-        explosionRadius++;
-    }
+    //public void IncreaseBlastRadius() 
+    //{
+    //    defaultExplosionRadius++;
+    //}
 }
