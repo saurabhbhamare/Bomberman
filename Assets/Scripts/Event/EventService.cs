@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EventService 
 {
-    public EventController OnGameOver;
+    public EventController<CharacterType>OnGameOver;
 
     public EventController<Vector2> OnRemovingDestructible;
 
@@ -15,7 +15,7 @@ public class EventService
 
     public EventService()
     {
-        OnGameOver = new EventController();
+        OnGameOver = new EventController<CharacterType>();
         OnRemovingDestructible = new EventController<Vector2>();
         OnBlastRadiusPickUp = new EventController();
     }

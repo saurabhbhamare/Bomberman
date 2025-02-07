@@ -7,7 +7,7 @@ public class CharacterController
     public CharacterView characterView;
     public BombService bombService;
     public EventService eventService;
-    public CharacterController(CharacterView characterView, CharacterSO characterSO, BombService bombService,EventService eventService)
+    public CharacterController(CharacterView characterView, CharacterSO characterSO, BombService bombService, EventService eventService)
     {
         this.characterSO = characterSO;
         characterModel = new CharacterModel(this.characterSO);
@@ -15,7 +15,6 @@ public class CharacterController
         this.bombService = bombService;
         this.eventService = eventService;
     }
-
     public void HandleInput()
     {
         if (Input.GetKey(characterModel.keyUp))
@@ -40,22 +39,20 @@ public class CharacterController
         }
         if (Input.GetKeyDown(characterModel.placeBomb))
         {
-            
-            if(characterModel.bombs>0)
+
+            if (characterModel.currentBombs > 0)
             {
-                bombService.PlaceBomb(characterView.GetBombDropPosition(),characterModel.isBlastRadiusOn);
-             //  bombService.PlaceBomb()
-                characterModel.bombs--;
+                bombService.PlaceBomb(characterView.GetBombDropPosition(), characterModel.isBlastRadiusOn);
+                this.characterModel.currentBombs--;
+                Debug.Log("current bombs " + characterModel.currentBombs);
             }
-          //  bombService.PlaceBomb(characterView.GetBombDropPosition());
         }
     }
     public void HandleMovement()
     {
         Vector2 position = characterView.GetRigidBody().position;
         float currentSpeed = characterModel.isSpeedBoostOn ? characterModel.boostedSpeed : characterModel.defaultSpeed;
-      //  Vector2 translation = characterModel.direction * characterModel.defaultSpeed * Time.fixedDeltaTime;
-        Vector2 translation = characterModel.direction * currentSpeed* Time.fixedDeltaTime;
+        Vector2 translation = characterModel.direction * currentSpeed * Time.fixedDeltaTime;
         characterView.GetRigidBody().MovePosition(position + translation);
     }
 
@@ -67,23 +64,23 @@ public class CharacterController
                 BlastRadiusPickUp();
                 break;
             case ItemType.EXTRABOMB:
+                ExtraBombPickUp();
                 break;
             case ItemType.SPEEDBOOST:
                 SpeedBoostPickup();
                 break;
         }
-
     }
     public void SpeedBoostPickup()
     {
-        Debug.Log("speed boost pickup");
+        Debug.Log("SpeedBoost Pickup");
         characterModel.isSpeedBoostOn = true;
         characterModel.speedBoostStartTime = Time.time;
     }
 
     public void UpdateSpeedBoost()
     {
-        if(characterModel.isSpeedBoostOn && Time.time - characterModel.speedBoostStartTime>= characterModel.speedBoostDuration)
+        if (characterModel.isSpeedBoostOn && Time.time - characterModel.speedBoostStartTime >= characterModel.speedBoostDuration)
         {
             characterModel.isSpeedBoostOn = false;
         }
@@ -97,16 +94,27 @@ public class CharacterController
     }
     public void ExtraBombPickUp()
     {
-
+        if (characterModel.currentBombs < characterModel.maxBombs)
+        {
+            characterModel.currentBombs++;
+        }
+        Debug.Log("Current Bombs after ExtraBombPickup" + characterModel.currentBombs);
     }
     public void BlastRadiusPickUp()
     {
         characterModel.isBlastRadiusOn = true;
         characterModel.blastRadiusStartTime = Time.time;
     }
-    
-    //private Vector2 GetBombDropPosition()
-    //{
-    //  Vector2 position = characterView.g
-    //}
+    public void BombRefill()
+    {
+        if (Time.time - characterModel.lastBombRefillTime >= characterModel.bombRefillInterval)
+        {
+            if (characterModel.currentBombs < characterModel.maxBombs)
+            {
+                characterModel.currentBombs++;
+                Debug.Log("Increased bomb counter" + characterModel.currentBombs);
+            }
+            characterModel.lastBombRefillTime = Time.time;
+        }
+    }
 }

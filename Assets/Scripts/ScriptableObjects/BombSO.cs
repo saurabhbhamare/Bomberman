@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class BombSO : ScriptableObject
 {
+    [Header("Pool Properties")]
+    public int BombPoolSize;
+    public int FlamesPoolSize;
+
+
     [Header("Bomb Properties")]
     public int DefaultExplosionRadius;
     public int BoostedBlastRadius;

@@ -4,8 +4,10 @@ using UnityEngine;
 public class CharacterSO : ScriptableObject
 {
     [Header("Character Properties")]
+    public CharacterType CharacterType;
     public float DefaultSpeed;
     public float BoostedSpeed;
+    public int MaxBombs;
 
     public float SpeedBoostDuration;
 
@@ -17,9 +19,13 @@ public class CharacterSO : ScriptableObject
 
     public KeyCode PlaceBomb;
 
-    [Header("Animation Sprites")]
+    [Header("Animation Properties")]
+
     public Sprite[] MoveUpSprites;
     public Sprite[] MoveDownSprites;
     public Sprite[] MoveLeftSprites;
     public Sprite[] MoveRightSprites;
+
+    public float IdleDelay;
+
 }

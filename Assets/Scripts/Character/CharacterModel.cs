@@ -2,6 +2,7 @@ using UnityEngine;
 public class CharacterModel
 {
     private CharacterSO characterData;
+    public CharacterType characterType;
     public Vector2 direction;
 
     //Movement Keys
@@ -11,9 +12,14 @@ public class CharacterModel
     public KeyCode keyRight;
 
     public KeyCode placeBomb;
-    public int bombs=10;
+
+    public int currentBombs=1;
+    public int maxBombs;
     public float defaultSpeed;
     public float boostedSpeed;
+
+    public float bombRefillInterval=5f;
+    public float lastBombRefillTime;
 
     public float speedBoostStartTime;
     public float speedBoostDuration;
@@ -22,11 +28,7 @@ public class CharacterModel
     public float blastRadiusDuration;
 
     //public float 
-
-
-
-
-
+ 
     public bool isSpeedBoostOn;
     public bool isBlastRadiusOn;
     public bool isExtraBombOn;
@@ -49,11 +51,13 @@ public class CharacterModel
     {
         this.defaultSpeed = characterData.DefaultSpeed;
         this.boostedSpeed = characterData.BoostedSpeed;
+        this.characterType = characterData.CharacterType;
 
 
 
 
         this.speedBoostDuration = characterData.SpeedBoostDuration;
+        this.maxBombs = characterData.MaxBombs;
         this.blastRadiusDuration = 15f;
 
         this.keyUp = characterData.MoveUp;
@@ -73,5 +77,6 @@ public class CharacterModel
     {
         this.direction = newDirection;
     }
+
 
 }

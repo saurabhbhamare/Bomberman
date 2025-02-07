@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ddfcbb3be13374899dc9be79a2a2a2, type: 3}
   m_Name: BombData
   m_EditorClassIdentifier: 
+  BombPoolSize: 20
+  FlamesPoolSize: 60
   DefaultExplosionRadius: 1
   BoostedBlastRadius: 3
   ExplosionDelay: 3

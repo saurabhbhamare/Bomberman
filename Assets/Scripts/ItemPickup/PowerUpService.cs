@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class PowerUpService
 {
-
     private PowerUpSO powerUpData;
     private EventService eventService;
-
-
     public PowerUpService(PowerUpSO powerUpData,EventService eventService)
     {
         this.powerUpData = powerUpData;
@@ -29,5 +26,4 @@ public class PowerUpService
     {
         eventService.OnRemovingDestructible.AddListener(SpawnPowerUp);
     }
-
 }

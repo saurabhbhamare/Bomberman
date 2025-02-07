@@ -23,7 +23,6 @@ public class BombService
 
     private ResourcePool<Bomb> bombPool;
     private ResourcePool<Flame> flamesPool;
-    //private ResourcePool<Destructible> destructiblePool;
 
     private LayerMask obstacleLayerMask;
     public Tilemap destructibleTilemap;

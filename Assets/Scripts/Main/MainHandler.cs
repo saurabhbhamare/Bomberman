@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TMPro;
 public class MainHandler : MonoBehaviour
 {
 
@@ -28,6 +29,11 @@ public class MainHandler : MonoBehaviour
     private BombService bombService;
     private PowerUpService powerUpService;
     private EventService eventService;
+
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] TextMeshProUGUI gameOverText;
+
+
     private void Start()
     {
         InitServices();
@@ -37,20 +43,34 @@ public class MainHandler : MonoBehaviour
     private void InitServices()
     {
         eventService = new EventService();
-        bombService = new BombService(bombData, bombPrefab, flamePrefab, bombParent, flameParent, obstacleLayerMask, destructibleTilemap,destructibleWall,destructibleObj,eventService);
-        characterService = new CharacterService(characterSO1, characterSO2,characterView1,characterView2,bombService,eventService);
-        powerUpService = new PowerUpService(powerUpsData,eventService);
-       
-        // AudioService 
+        bombService = new BombService(bombData, bombPrefab, flamePrefab, bombParent, flameParent, obstacleLayerMask, destructibleTilemap, destructibleWall, destructibleObj, eventService);
+        characterService = new CharacterService(characterSO1, characterSO2, characterView1, characterView2, bombService, eventService);
+        powerUpService = new PowerUpService(powerUpsData, eventService);
     }
-    //Game States
-    
+
+
     private void RegisterEventListeners()
     {
-        
+        eventService.OnGameOver.AddListener(GameOver);
     }
-    public void GameOver()
+    public void GameOver(CharacterType deadCharacterType)
     {
-
+        ShowGameOverUI();
+        SetGameOverText(deadCharacterType);
+    }
+    public void ShowGameOverUI()
+    {
+        gameOverPanel.SetActive(true);
+    }
+    public void SetGameOverText(CharacterType deadCharacterType)
+    {
+        if (deadCharacterType == CharacterType.CHARACTER1)
+        {
+            gameOverText.text = "Player2 Won the game";
+        }
+        else
+        {
+            gameOverText.text = "Player1 Won the game";
+        }
     }
 }

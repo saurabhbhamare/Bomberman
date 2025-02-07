@@ -36,15 +36,12 @@ public class Bomb : MonoBehaviour
         timer = bombData.ExplosionDelay;
         if(isBlastRadiusOn)
         {
-           // Debug.Log("Blast radius on saved");
             bombRadius = bombSO.BoostedBlastRadius;
         }
         else
         {
             bombRadius = bombSO.DefaultExplosionRadius;
         }
-        //  bombRadius = bombData.DefaultExplosionRadius;
-        Debug.Log("bomb Radius is : " + bombRadius);
         scaleSprites = bombData.BombAnimationSprites;
         nextFrameTime = Time.time + bombData.BombAnimationFrameRate;
     }

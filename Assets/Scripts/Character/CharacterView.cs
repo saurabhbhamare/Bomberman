@@ -26,17 +26,12 @@ public class CharacterView : MonoBehaviour
         this.circleCollider = GetComponent<CircleCollider2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         characterController.HandleInput();
         characterController.UpdateSpeedBoost();
         characterController.UpdateBlastRadius();
+        characterController.BombRefill();
         PlayAnimation();
     }
     private void FixedUpdate()
@@ -57,7 +52,6 @@ public class CharacterView : MonoBehaviour
     }
     public Vector2 GetBombDropPosition()
     {
-        //Vector2 position = new Vector2(Mathf.Round (circleCollider.transform.position.x), Mathf.Round(circleCollider.transform.position.y));
         Vector2 position = new Vector2(Mathf.Round(circleCollider.bounds.center.x), Mathf.Round(circleCollider.bounds.center.y));
         return position;
     }
@@ -70,9 +64,7 @@ public class CharacterView : MonoBehaviour
         Vector2 direction = characterController.characterModel.direction;
         if (direction != Vector2.zero)
         {
-
             lastDirection = direction;
-
             frameTimer += Time.deltaTime;
             if (frameTimer >= frameRate)
             {
@@ -95,7 +87,6 @@ public class CharacterView : MonoBehaviour
                     spriteRenderer.sprite = characterController.characterModel.rightMoveSprites[currentFrame];
                 }
             }
-
         }
         else
         {
@@ -104,7 +95,6 @@ public class CharacterView : MonoBehaviour
             {
                 DisplayIdleSprite();
             }
-
         }
     }
     public void DisplayIdleSprite()
@@ -127,25 +117,13 @@ public class CharacterView : MonoBehaviour
         }
 
     }
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.GetComponent<Flame>())
-        {
-            Time.timeScale = 0;
-        }
-        else if(other.gameObject.GetComponent<PowerUP>())
-        {
-            ItemType itemType = other.gameObject.GetComponent<PowerUP>().itemType;
-            characterController.OnPickingPowerUP(itemType);
-        }
-    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<Flame>())
         {
-            Time.timeScale = 0f;
+            characterController.eventService.OnGameOver.Invoke(characterController.characterModel.characterType);
         }
-        if(other.gameObject.GetComponent<PowerUP>())
+        if (other.gameObject.GetComponent<PowerUP>())
         {
             ItemType itemType = other.gameObject.GetComponent<PowerUP>().itemType;
             characterController.OnPickingPowerUP(itemType);
