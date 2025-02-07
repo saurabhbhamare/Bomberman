@@ -1,5 +1,3 @@
-//using System.Collections;
-//using System.Collections.Generic;
 using UnityEngine;
 
 public class Flame : MonoBehaviour
@@ -13,6 +11,7 @@ public class Flame : MonoBehaviour
     private Vector2 currentFramePosition;
     private int spriteCount;
     private int blockPosition;
+    private float fadeOutTime=0.6f;
 
     private Sprite[] currentFlameAnimation;
     private Sprite[] startFlame;
@@ -20,9 +19,10 @@ public class Flame : MonoBehaviour
     private Sprite[] endFlame;
     private void Start()
     {
+        fadeOutTime = 0.6f;
         this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         this.spriteRenderer.sprite = startFlame[0];
-        Invoke(nameof(FadeOut), 0.6f);
+        Invoke(nameof(FadeOut), fadeOutTime);
     }
     public void ConfigureFlame(BombService bombService, Vector2 position, Vector2 direction, FlameType flameType)
     {
@@ -73,12 +73,5 @@ public class Flame : MonoBehaviour
     public void FadeOut()
     {
         bombService.ReturnObjectToPool(this);
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<CharacterView>())
-        {
-            Time.timeScale = 0f;
-        }
     }
 }
