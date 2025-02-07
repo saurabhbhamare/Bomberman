@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class Bomb : MonoBehaviour
 {
     private CircleCollider2D circleCollider;
@@ -10,14 +7,17 @@ public class Bomb : MonoBehaviour
     private BombSO bombData;
     private Sprite[] scaleSprites;
     private float bombRadius;
-    private int spriteCount = 4;
+    private float explosionDelay;
+    private int spriteCount;
     private float timer;
     private float nextFrameTime;
     private int currentFrame;
-    private float animationFrameRate = 0.15f;
+    private float animationFrameRate;
     private bool isBlastRadiusOn;
-    public void ConfigureBomb(BombService bombService,bool isBlastRadiusOn)
+    public void ConfigureBomb(BombService bombService, bool isBlastRadiusOn)
     {
+        animationFrameRate = 0.15f;
+        spriteCount = 4;
         this.circleCollider = this.gameObject.GetComponent<CircleCollider2D>();
         this.circleCollider.isTrigger = true;
         this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
@@ -25,7 +25,7 @@ public class Bomb : MonoBehaviour
         bombData = bombService.bombData;
         this.isBlastRadiusOn = isBlastRadiusOn;
         SetBombData(this.bombData);
-        Invoke(nameof(Explode), bombData.ExplosionDelay);
+        Invoke(nameof(Explode), timer);
     }
     private void Update()
     {
@@ -34,7 +34,7 @@ public class Bomb : MonoBehaviour
     public void SetBombData(BombSO bombSO)
     {
         timer = bombData.ExplosionDelay;
-        if(isBlastRadiusOn)
+        if (isBlastRadiusOn)
         {
             bombRadius = bombSO.BoostedBlastRadius;
         }
@@ -56,11 +56,7 @@ public class Bomb : MonoBehaviour
     }
     public void Explode()
     {
-        if (bombService == null)
-        {
-            Debug.Log("bomservice null");
-        }
-        bombService.ShowExplosionFlames(this.transform.position,this.isBlastRadiusOn);
+        bombService.ShowExplosionFlames(this.transform.position, this.isBlastRadiusOn);
         bombService.ReturnObjectToPool(this);
     }
     private void OnTriggerExit2D(Collider2D other)

@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ResourcePool<T> where T : MonoBehaviour
 {
     private Queue<T> pool;
     private T prefab;
     private Transform parent;
-
     public ResourcePool(T prefab, int size, Transform parent)
     {
         this.prefab = prefab;
@@ -27,7 +25,6 @@ public class ResourcePool<T> where T : MonoBehaviour
         newObject.gameObject.SetActive(false);
         pool.Enqueue(newObject);
     }
-
     public T GetObject()
     {
         if (pool.Count > 0)
@@ -43,7 +40,6 @@ public class ResourcePool<T> where T : MonoBehaviour
             return tempObject;
         }
     }
-
     public void ReturnObject(T returnedObject)
     {
         returnedObject.gameObject.SetActive(false);

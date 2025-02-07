@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class CharacterService
 {
+    //Character Data
     private CharacterSO characterSO1;
     private CharacterSO characterSO2;
     private CharacterView characterView1;

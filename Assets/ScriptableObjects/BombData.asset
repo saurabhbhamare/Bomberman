@@ -50,3 +50,5 @@ MonoBehaviour:
   - {fileID: -1038348510, guid: 9aa307c58b7c6f94c991d56f5a761bb6, type: 3}
   - {fileID: -212059906, guid: 9aa307c58b7c6f94c991d56f5a761bb6, type: 3}
   - {fileID: -510612890, guid: 9aa307c58b7c6f94c991d56f5a761bb6, type: 3}
+  FlameSpriteCount: 8
+  FlameAnimationFrameRate: 0.15

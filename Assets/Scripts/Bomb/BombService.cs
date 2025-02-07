@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class BombService
 {
+    //Explosion Data
+    private EventService eventService;
     public BombSO bombData;
     private Bomb bomb;
     private Flame flame;
@@ -11,62 +11,52 @@ public class BombService
     private Destructible destructible;
     private GameObject destructibleObj;
 
-
     private int defaultExplosionRadius;
     private int boostedBlastRadius;
 
+    //PoolData
     private Transform bombParent;
     private Transform flameParent;
-
-    private int bombPoolSize = 20;
-    private int flamesPoolSize = 40;
-
+    private int bombPoolSize;
+    private int flamesPoolSize;
     private ResourcePool<Bomb> bombPool;
     private ResourcePool<Flame> flamesPool;
 
+    //Level Data
     private LayerMask obstacleLayerMask;
     public Tilemap destructibleTilemap;
-
-
-    private EventService eventService;
-
-    public BombService(BombSO bombData, Bomb bomb, Flame flame, Transform bombParent, Transform flameParent, LayerMask obstacleLayerMask,Tilemap destructibleTilemap,Destructible destructible,GameObject destructibleObj,EventService eventService)
+    public BombService(BombSO bombData, Bomb bomb, Flame flame, Transform bombParent, Transform flameParent, LayerMask obstacleLayerMask, Tilemap destructibleTilemap, Destructible destructible, GameObject destructibleObj, EventService eventService)
     {
+        this.eventService = eventService;
         this.bombData = bombData;
         this.bomb = bomb;
+
+        //Pool Data
         this.bombParent = bombParent;
         this.flameParent = flameParent;
+        this.bombPoolSize = bombData.BombPoolSize;
+        this.flamesPoolSize = bombData.FlamesPoolSize;
+        bombPool = new ResourcePool<Bomb>(bomb, bombPoolSize, bombParent);
+        flamesPool = new ResourcePool<Flame>(flame, flamesPoolSize, flameParent);
+
+        //Level Destructibles & Flame Data
         this.obstacleLayerMask = obstacleLayerMask;
         this.destructibleTilemap = destructibleTilemap;
         this.destructible = destructible;
         this.destructibleObj = destructibleObj;
         this.defaultExplosionRadius = bombData.DefaultExplosionRadius;
         this.boostedBlastRadius = bombData.BoostedBlastRadius;
-
-
-
-        this.eventService = eventService;
-        bombPool = new ResourcePool<Bomb>(bomb, bombPoolSize, bombParent);
-        flamesPool = new ResourcePool<Flame>(flame, flamesPoolSize, flameParent);
-
-        RegisterEventListeners();
     }
-
-    public void RegisterEventListeners()
+    public void PlaceBomb(Vector2 position, bool isBlastRadiusOn)
     {
-       // eventService.OnBlastRadiusPickUp.AddListener(IncreaseBlastRadius);
-    }
-    public void PlaceBomb(Vector2 position,bool isBlastRadiusOn)
-    {
-
         bombPosition = position;
         Bomb bomb = bombPool.GetObject();
         bomb.transform.position = position;
-        bomb.ConfigureBomb(this,isBlastRadiusOn);
-
+        bomb.ConfigureBomb(this, isBlastRadiusOn);
     }
-    public void ShowExplosionFlames(Vector2 position,bool isBlastRadius)
-    { 
+    public void ShowExplosionFlames(Vector2 position, bool isBlastRadius)
+    {
+        //Position
         Vector2 recentPos = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
 
         // Center flame (start animation)
@@ -74,14 +64,13 @@ public class BombService
         centerFlame.ConfigureFlame(this, recentPos, Vector2.zero, FlameType.START);
 
         // Directional flames
-        PlaceDirectionalFlames(recentPos, Vector2.up, FlameType.MID, FlameType.END,isBlastRadius);
+        PlaceDirectionalFlames(recentPos, Vector2.up, FlameType.MID, FlameType.END, isBlastRadius);
         PlaceDirectionalFlames(recentPos, Vector2.down, FlameType.MID, FlameType.END, isBlastRadius);
         PlaceDirectionalFlames(recentPos, Vector2.left, FlameType.MID, FlameType.END, isBlastRadius);
         PlaceDirectionalFlames(recentPos, Vector2.right, FlameType.MID, FlameType.END, isBlastRadius);
     }
-    private void PlaceDirectionalFlames(Vector2 origin, Vector2 direction, FlameType midFlameType, FlameType endFlameType,bool isBlastRadius)
+    private void PlaceDirectionalFlames(Vector2 origin, Vector2 direction, FlameType midFlameType, FlameType endFlameType, bool isBlastRadius)
     {
-
         int currentExplosionRadius = isBlastRadius ? this.boostedBlastRadius : defaultExplosionRadius;
         for (int i = 1; i <= currentExplosionRadius; i++)
         {
@@ -90,7 +79,6 @@ public class BombService
             Vector2 checkPosition = origin + offset;
             Vector2 boxSize = new Vector2(0.5f, 0.5f);
             Collider2D hit = Physics2D.OverlapBox(checkPosition, boxSize, 0f, obstacleLayerMask);
-
             if (hit == null)
             {
                 Flame flame = flamesPool.GetObject();
@@ -99,7 +87,6 @@ public class BombService
             else
             {
                 RemoveDestructible(checkPosition);
-                
                 break;
             }
         }
@@ -120,24 +107,11 @@ public class BombService
         Vector3Int cell = destructibleTilemap.WorldToCell(position);
         TileBase tile = destructibleTilemap.GetTile(cell);
 
-        if(tile!=null)
+        if (tile != null)
         {
-
             GameObject.Instantiate(destructible, position, Quaternion.identity);
-
-
-            // GameObject.Instantiate(destructible, position, Quaternion.identity);
-            // GameObject.Instantiate(destructible, cell, Quaternion.identity);
-            //GameObject.Instantiate(this.destructibleObj,cell,Quaternion.identity);
             destructibleTilemap.SetTile(cell, null);
-
-
             eventService.OnRemovingDestructible.Invoke(position);
         }
     }
-
-    //public void IncreaseBlastRadius() 
-    //{
-    //    defaultExplosionRadius++;
-    //}
 }

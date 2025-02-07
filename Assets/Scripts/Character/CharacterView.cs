@@ -9,19 +9,17 @@ public class CharacterView : MonoBehaviour
     private CircleCollider2D circleCollider;
     private SpriteRenderer spriteRenderer;
 
-    private int idleMoveSprite = 0;
-    private int maxDirMovementFrames = 4;
-
+    private int idleMoveSprite;
+    private int maxDirMovementFrames;
     private float frameTimer;
     private int currentFrame;
-    public float frameRate = 0.1f;
 
     public float idleTimer;
-    public float idleDelay = 0.2f;
-
+    public float idleDelay;
     public Vector2 lastDirection;
     private void Awake()
     {
+        idleDelay = 0.2f;
         this.rigidbody = GetComponent<Rigidbody2D>();
         this.circleCollider = GetComponent<CircleCollider2D>();
         this.spriteRenderer = GetComponent<SpriteRenderer>();
@@ -46,10 +44,6 @@ public class CharacterView : MonoBehaviour
     {
         return rigidbody;
     }
-    public CircleCollider2D GetCircleCollider()
-    {
-        return this.circleCollider;
-    }
     public Vector2 GetBombDropPosition()
     {
         Vector2 position = new Vector2(Mathf.Round(circleCollider.bounds.center.x), Mathf.Round(circleCollider.bounds.center.y));
@@ -66,10 +60,10 @@ public class CharacterView : MonoBehaviour
         {
             lastDirection = direction;
             frameTimer += Time.deltaTime;
-            if (frameTimer >= frameRate)
+            if (frameTimer >= characterController.characterModel.animationFrameRate)
             {
                 frameTimer = 0f;
-                currentFrame = (currentFrame + 1) % maxDirMovementFrames;
+                currentFrame = (currentFrame + 1) % characterController.characterModel.maxDirMovementFrames;
                 if (direction == Vector2.up)
                 {
                     spriteRenderer.sprite = characterController.characterModel.upMoveSprites[currentFrame];

@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class Destructible : MonoBehaviour
@@ -7,15 +7,19 @@ public class Destructible : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private int currentFrame;
     private float nextFrameTime;
-    private float animationFramRate=0.1f;
+    private float animationFramRate;
+    private float objectDuration;
     public Sprite[] animationSprites;
-    private int totalSprites = 7;
-
+    private int totalSprites;
     private void Start()
     {
+        //Object Data
+        animationFramRate = 0.1f;
+        objectDuration = 0.7f;
+        totalSprites = 7; 
+
         this.spriteRenderer = GetComponent<SpriteRenderer>();
-        Invoke(nameof(DestroyObject), 0.7f);
-        
+        Invoke(nameof(DestroyObject), objectDuration); 
     }
     private void Update()
     {

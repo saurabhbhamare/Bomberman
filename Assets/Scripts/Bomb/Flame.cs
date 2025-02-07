@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class Flame : MonoBehaviour
@@ -7,35 +7,35 @@ public class Flame : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float nextFrameTime;
     private int currentFrame;
-    private float animationFrameRate = 0.15f;
+    private float animationFrameRate;
     private BombSO bombData;
     private BombService bombService;
     private Vector2 currentFramePosition;
-    private int spriteCount = 8;
+    private int spriteCount;
     private int blockPosition;
-    private Sprite[] currentFlameAnimation;
 
+    private Sprite[] currentFlameAnimation;
     private Sprite[] startFlame;
     private Sprite[] midFlame;
     private Sprite[] endFlame;
-
     private void Start()
     {
         this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         this.spriteRenderer.sprite = startFlame[0];
         Invoke(nameof(FadeOut), 0.6f);
     }
-
     public void ConfigureFlame(BombService bombService, Vector2 position, Vector2 direction, FlameType flameType)
     {
         currentFramePosition = position;
         this.bombService = bombService;
         this.bombData = bombService.bombData;
+        this.animationFrameRate = bombData.FlameAnimationFrameRate;
+        this.spriteCount = bombData.FlameSpriteCount;
 
+        //Sprites
         startFlame = bombData.StartFlameAnimationSprites;
         midFlame = bombData.MidFlameAnimationSprites;
         endFlame = bombData.EndFlameAnimationSprites;
-
 
         switch (flameType)
         {
@@ -63,7 +63,6 @@ public class Flame : MonoBehaviour
     }
     public void PlayFlamesFadeOutAnimation()
     {
-
         if (Time.time >= nextFrameTime)
         {
             spriteRenderer.sprite = currentFlameAnimation[currentFrame];
@@ -77,7 +76,7 @@ public class Flame : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.GetComponent<CharacterView>())
+        if (collision.gameObject.GetComponent<CharacterView>())
         {
             Time.timeScale = 0f;
         }

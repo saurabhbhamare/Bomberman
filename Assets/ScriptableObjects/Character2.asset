@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Character2
   m_EditorClassIdentifier: 
   CharacterType: 1
-  DefaultSpeed: 5
-  BoostedSpeed: 10
+  DefaultSpeed: 4
+  BoostedSpeed: 8
   MaxBombs: 5
+  BombRefillInterval: 5
   SpeedBoostDuration: 3
+  BlastRadiusDuration: 15
   MoveUp: 273
   MoveLeft: 276
   MoveDown: 274
