@@ -8,6 +8,8 @@ public class MainHandler : MonoBehaviour
     [SerializeField] private CharacterSO characterSO2;
     [SerializeField] private CharacterView characterView1;
     [SerializeField] private CharacterView characterView2;
+    [SerializeField] private CharacterHUD characterHUD1;
+    [SerializeField] private CharacterHUD characterHUD2;
 
     [Header("Bomb and Flame References")]
     [SerializeField] private BombSO bombData;
@@ -43,7 +45,7 @@ public class MainHandler : MonoBehaviour
     {
         eventService = new EventService();
         bombService = new BombService(bombData, bombPrefab, flamePrefab, bombParent, flameParent, obstacleLayerMask, destructibleTilemap, destructibleWall, destructibleObj, eventService);
-        characterService = new CharacterService(characterSO1, characterSO2, characterView1, characterView2, bombService, eventService);
+        characterService = new CharacterService(characterSO1, characterSO2, characterView1, characterView2, bombService, eventService,characterHUD1,characterHUD2);
         powerUpService = new PowerUpService(powerUpsData, eventService);
     }
     private void RegisterEventListeners()

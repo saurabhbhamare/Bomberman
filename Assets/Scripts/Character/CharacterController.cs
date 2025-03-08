@@ -6,8 +6,10 @@ public class CharacterController
     public CharacterView characterView;
     public BombService bombService;
     public EventService eventService;
-    public CharacterController(CharacterView characterView, CharacterSO characterSO, BombService bombService, EventService eventService)
+    public CharacterHUD characterHUD;
+    public CharacterController(CharacterView characterView, CharacterSO characterSO, BombService bombService, EventService eventService,CharacterHUD characterHUD)
     {
+        this.characterHUD = characterHUD;
         this.characterSO = characterSO;
         characterModel = new CharacterModel(this.characterSO);
         this.characterView = characterView;
@@ -61,12 +63,19 @@ public class CharacterController
         {
             case ItemType.BLASTRADIUS:
                 BlastRadiusPickUp();
+               
                 break;
             case ItemType.EXTRABOMB:
                 ExtraBombPickUp();
                 break;
             case ItemType.SPEEDBOOST:
                 SpeedBoostPickup();
+                if(characterHUD == null)
+                {
+                    Debug.Log("characterHUD is null");
+                    return;
+                }
+                characterHUD.ShowSpeedBoost();
                 break;
         }
     }
@@ -82,6 +91,7 @@ public class CharacterController
         if (characterModel.isSpeedBoostOn && Time.time - characterModel.speedBoostStartTime >= characterModel.speedBoostDuration)
         {
             characterModel.isSpeedBoostOn = false;
+            characterHUD.HideSpeedBoost();
         }
     }
     public void UpdateBlastRadius()

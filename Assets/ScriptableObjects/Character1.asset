@@ -24,6 +24,9 @@ MonoBehaviour:
   MoveDown: 115
   MoveRight: 100
   PlaceBomb: 32
+  MaxDirMovementFrames: 4
+  IdleMoveSpriteNumber: 0
+  AnimationFrameRate: 0.1
   MoveUpSprites:
   - {fileID: 616504038, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
   - {fileID: 1372196283, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
@@ -44,4 +47,3 @@ MonoBehaviour:
   - {fileID: 1382881546, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
   - {fileID: -1962086397, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
   - {fileID: 569091773, guid: b86d47c5af5dd984c8b749bde7bd8616, type: 3}
-  IdleDelay: 0
