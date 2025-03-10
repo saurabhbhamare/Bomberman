@@ -64,6 +64,7 @@ public class CharacterController
         {
             case ItemType.BLASTRADIUS:
                 BlastRadiusPickUp();
+                characterHUD.ShowBlastRadius();
                
                 break;
             case ItemType.EXTRABOMB:
@@ -101,6 +102,7 @@ public class CharacterController
         if (characterModel.isBlastRadiusOn && Time.time - characterModel.blastRadiusStartTime >= characterModel.blastRadiusDuration)
         {
             characterModel.isBlastRadiusOn = false;
+            characterHUD.HideBlastRadius();
         }
     }
     public void ExtraBombPickUp()
@@ -129,6 +131,6 @@ public class CharacterController
             }
             characterModel.lastBombRefillTime = Time.time;
         }
-        //characterHUD.UpdatePlayerBombs(characterModel.currentBombs);
+        characterHUD.UpdatePlayerBombs(characterModel.currentBombs);
     }
 }

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class MainHandler : MonoBehaviour
 {
     [Header("Character References")]
@@ -35,11 +37,13 @@ public class MainHandler : MonoBehaviour
 
     //GameOver UI
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private Button homeButton;
     [SerializeField] TextMeshProUGUI gameOverText;
     private void Start()
     {
         InitServices();
         RegisterEventListeners();
+        RegisterButtonListener();
     }
     private void InitServices()
     {
@@ -56,6 +60,7 @@ public class MainHandler : MonoBehaviour
     {
         ShowGameOverUI();
         SetGameOverText(deadCharacterType);
+        Time.timeScale = 0;
     }
     public void ShowGameOverUI()
     {
@@ -72,4 +77,15 @@ public class MainHandler : MonoBehaviour
             gameOverText.text = "White won the game :)";
         }
     }
+    private void RegisterButtonListener()
+    {
+        homeButton.onClick.AddListener(ShowHomeScreen);
+    }
+    private void ShowHomeScreen()
+    {
+        Debug.Log("running showhomescreen function");
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Main");
+    }
+
 }

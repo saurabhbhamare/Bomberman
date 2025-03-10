@@ -37,15 +37,5 @@ public class CharacterHUD : MonoBehaviour
     {
         blastRadiusHUD.gameObject.SetActive(false);
     }
-    public void ShowExtraBomb()
-    {
-        bombHUD.gameObject.SetActive(true);
-    }
-    public void HideExtraBomb()
-    {
-        bombHUD.gameObject.SetActive(false);
-    }
-
-
 
 }
