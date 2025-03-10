@@ -30,6 +30,7 @@ public class CharacterView : MonoBehaviour
         characterController.UpdateSpeedBoost();
         characterController.UpdateBlastRadius();
         characterController.BombRefill();
+        //characterController.characterHUD.UpdatePlayerBombs(characterController.characterModel.currentBombs);
         PlayAnimation();
     }
     private void FixedUpdate()

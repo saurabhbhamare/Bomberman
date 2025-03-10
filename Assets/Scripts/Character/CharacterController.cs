@@ -46,6 +46,7 @@ public class CharacterController
                 bombService.PlaceBomb(characterView.GetBombDropPosition(), characterModel.isBlastRadiusOn);
                 this.characterModel.currentBombs--;
                 Debug.Log("current bombs " + characterModel.currentBombs);
+                characterHUD.UpdatePlayerBombs(characterModel.currentBombs);
             }
         }
     }
@@ -67,6 +68,7 @@ public class CharacterController
                 break;
             case ItemType.EXTRABOMB:
                 ExtraBombPickUp();
+                characterHUD.UpdatePlayerBombs(characterModel.currentBombs);
                 break;
             case ItemType.SPEEDBOOST:
                 SpeedBoostPickup();
@@ -108,6 +110,7 @@ public class CharacterController
             characterModel.currentBombs++;
         }
         Debug.Log("Current Bombs after ExtraBombPickup" + characterModel.currentBombs);
+        characterHUD.UpdatePlayerBombs(characterModel.currentBombs);
     }
     public void BlastRadiusPickUp()
     {
@@ -122,8 +125,10 @@ public class CharacterController
             {
                 characterModel.currentBombs++;
                 Debug.Log("Increased bomb counter" + characterModel.currentBombs);
+                
             }
             characterModel.lastBombRefillTime = Time.time;
         }
+        //characterHUD.UpdatePlayerBombs(characterModel.currentBombs);
     }
 }
